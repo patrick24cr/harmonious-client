@@ -1,24 +1,25 @@
-import { signOut } from '../utils/auth';
-import { useAuth } from '../utils/context/authContext';
+// import { signOut } from '../utils/auth';
+import { useState } from 'react';
+// import { useAuth } from '../utils/context/authContext';
+// import { getScoresById } from '../api/scores';
+import TopNavigation from '../components/TopNavigation';
+import GridInteractable from '../components/GridInteractable';
+import BottomParameters from '../components/BottomParameters';
 
 function Home() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const scores = {};
+  // const [scores, setScores] = useState({});
+  const [selected, setSelected] = useState('initial');
+  // useEffect(() => {
+  //   getScoresById(user.id).then(setScores);
+  // }, [user.id]);
 
   return (
-    <div
-      className="text-center d-flex flex-column justify-content-center align-content-center"
-      style={{
-        height: '90vh',
-        padding: '30px',
-        maxWidth: '400px',
-        margin: '0 auto',
-      }}
-    >
-      <h1>Hello {user.displayName}! </h1>
-      <p>Click the button below to logout!</p>
-      <button className="btn btn-danger btn-lg copy-btn" type="button" onClick={signOut}>
-        Sign Out
-      </button>
+    <div className="container1">
+      <TopNavigation />
+      <GridInteractable scores={scores} selected={selected} setSelected={setSelected} />
+      <BottomParameters selected={selected} />
     </div>
   );
 }
