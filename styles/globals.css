@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?&family=Major+Mono+Display&family=ABeeZee&family=Comfortaa&family=DotGothic16&family=Geo&family=Julius+Sans+One&family=Quicksand:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?&family=Major+Mono+Display&family=ABeeZee&family=Comfortaa&family=Source+Code+Pro:wght@300&family=DotGothic16&family=Geo&family=Julius+Sans+One&family=Quicksand:wght@300&display=swap');
 
 body {
   padding: 0;
   margin: 0;
   margin-top: 20px;
-  font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Source Code Pro', 'Quicksand', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background-color: #00021E;
   color: white;
 }
@@ -20,24 +20,28 @@ a {
 
 .container1 {
   padding-top: 5vw;
-  width: 90vw;
+  width: 40rem;
   margin-left: auto;
   margin-right: auto;
 }
 
 .logo {
-  font-size: 6vw;
-  letter-spacing: 0.3vw;
+  text-align: center;
+  font-size: 3rem;
+  letter-spacing: 0.3rem;
   color: #7FD3D9;
   font-family: 'Major Mono Display', sans-serif;
+  margin: auto;
 }
 
 .navigationButtonsContainer {
   margin-left: auto;
-  margin-right: 0vw;
+  margin-right: auto;
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .navBarSpacer {
@@ -599,4 +603,58 @@ a {
 .cardBuffer {
   text-align: center;
   margin: auto;
+}
+
+.soundscapeBox1 {
+  color: #7FD3D9;
+  background-color: #0C0940;
+  border-color: #201954;
+  border-style: solid;
+  border-width: 1px;
+  width: 40rem;
+  height: 16rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.parameterLabelBox {
+  margin: auto;
+}
+
+.selectBox {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 1rem;
+}
+
+.soundscapeBox2 {
+  color: #7FD3D9;
+  background-color: #0C0940;
+  border-color: #201954;
+  border-style: solid;
+  border-width: 1px;
+  width: 40rem;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.pulldownClass {
+  background-color: #201954;
+  height: 2.5rem;
+  width: 12rem;
+  color: #ffffff;
+  border: none;
+  text-align: center;
+}
+
+.inputClass {
+  background-color: #201954;
+  height: 2.5rem;
+  width: 15rem;
+  color: #ffffff;
+  border: none;
+  text-align: center;
 }
