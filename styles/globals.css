@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=ABeeZee&family=Comfortaa&family=DotGothic16&family=Geo&family=Julius+Sans+One&family=Quicksand:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?&family=Major+Mono+Display&family=ABeeZee&family=Comfortaa&family=DotGothic16&family=Geo&family=Julius+Sans+One&family=Quicksand:wght@300&display=swap');
 
 body {
   padding: 0;
   margin: 0;
   margin-top: 20px;
   font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: #1E1554;
+  background-color: #00021E;
   color: white;
 }
 
@@ -28,8 +28,8 @@ a {
 .logo {
   font-size: 6vw;
   letter-spacing: 0.3vw;
-  color: white;
-  font-family: 'Julius Sans One', sans-serif;
+  color: #7FD3D9;
+  font-family: 'Major Mono Display', sans-serif;
 }
 
 .navigationButtonsContainer {
@@ -45,14 +45,14 @@ a {
 }
 
 .metaGridContainer {
-  width: 80vw;
-  min-height: 70vw;
-  padding-top: 3vw;
-  padding-bottom: 4vw;
+  width: 14rem;
+  min-height: 14rem;
+  /* padding-top: 3vw; */
+  /* padding-bottom: 4vw; */
   /* background-color: #2b2a35; */
   display: grid;
-  grid-template-columns: 20vw 70vw;
-  grid-template-rows: 15vw 70vw;
+  grid-template-columns: 0vw 14rem;
+  grid-template-rows: 0vw 14rem;
   grid-template-areas: 
     "blank syntax"
     "verbs tiles";
@@ -65,14 +65,15 @@ a {
   top: 0;
   left: 0;
   z-index: -1;
-  background-color: #1c77ff;
-  animation-name: colorAnimation;
-  animation-duration: 1.5s;
+  background-color: #0C0940;
+  /* animation-name: colorAnimation; */
+  animation-duration: 3s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
 
 .lessonGridContainer {
+  padding: 1px;
   position: relative;
   grid-area: tiles;
   /* margin-right: 0px;
@@ -149,6 +150,7 @@ a {
 
 .metaTile {
   position: relative;
+  margin: 1px;
 }
 
 .scoreContainer {
@@ -175,6 +177,7 @@ a {
 }
 
 .selectedScore {
+  background-color: #3CAE9A;
   opacity: 1;
 }
 
@@ -212,7 +215,7 @@ a {
 }
 
 .grade0 {
-  background-color: #210360;
+  background-color: #201954;
 }
 
 .selected {
@@ -234,13 +237,13 @@ a {
 
 @keyframes colorAnimation {
   0% {
-    background-color: #1c77ff;
+    background-color: #3CAE9A;
   }
   50% {
-    background-color: #1E1554;
+    background-color: #1e564c;
   }
   100% {
-    background-color: #1c77ff;
+    background-color: #3CAE9A;
   }
 }
 
@@ -583,4 +586,17 @@ a {
 
 .displayNone {
   display: none;
+}
+
+.card {
+  background-color: #0C0940!important;
+  border-color: #201954!important;
+  height: 250px;
+  border-radius: 0px;
+  color: #7FD3D9;
+}
+
+.cardBuffer {
+  text-align: center;
+  margin: auto;
 }
