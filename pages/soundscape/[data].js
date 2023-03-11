@@ -16,6 +16,14 @@ const initialState = {
   melodyTexture: 1,
   chordTexture: 1,
   title: '',
+  easygoing: false,
+  nocturnal: false,
+  earnest: false,
+  hopeful: false,
+  circular: false,
+  bittersweet: false,
+  foggy: false,
+  desolate: false,
 };
 
 export default function Soundscape() {
@@ -45,9 +53,6 @@ export default function Soundscape() {
     pk = parseInt(soundscapeStringArray[4], 10);
     if (soundscapeStringArray[5]) {
       originalProgressions = soundscapeStringArray[5];
-      // originalProgressions = soundscapeStringArray[5].split('');
-      // originalProgressions = originalProgressions.map((x) => parseInt(x, 10));
-      console.warn(originalProgressions);
     }
   }
 
@@ -61,9 +66,63 @@ export default function Soundscape() {
   //   }));
   // };
 
+  const stringifyProgression = () => {
+    let progressionString = '';
+    if (formInput.easygoing) {
+      progressionString += '1';
+    }
+    if (formInput.nocturnal) {
+      progressionString += '2';
+    }
+    if (formInput.earnest) {
+      progressionString += '3';
+    }
+    if (formInput.hopeful) {
+      progressionString += '4';
+    }
+    if (formInput.circular) {
+      progressionString += '5';
+    }
+    if (formInput.bittersweet) {
+      progressionString += '6';
+    }
+    if (formInput.foggy) {
+      progressionString += '7';
+    }
+    if (formInput.desolate) {
+      progressionString += '8';
+    }
+    return progressionString;
+  };
+
   const handleChange = (e) => {
-    console.warn('changed handled');
-    const { name, value } = e.target;
+    // const { name, value } = e.target;
+    const { name } = e.target;
+    let { value } = e.target;
+    if (name === 'easygoing') {
+      value = !formInput.easygoing;
+    }
+    if (name === 'nocturnal') {
+      value = !formInput.nocturnal;
+    }
+    if (name === 'earnest') {
+      value = !formInput.earnest;
+    }
+    if (name === 'hopeful') {
+      value = !formInput.hopeful;
+    }
+    if (name === 'circular') {
+      value = !formInput.circular;
+    }
+    if (name === 'bittersweet') {
+      value = !formInput.bittersweet;
+    }
+    if (name === 'foggy') {
+      value = !formInput.foggy;
+    }
+    if (name === 'desolate') {
+      value = !formInput.desolate;
+    }
     setFormInput((prevState) => ({
       ...prevState,
       [name]: value,
@@ -73,18 +132,33 @@ export default function Soundscape() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (router.query.data !== 'new') {
-      updateSoundscape(pk, formInput).then(() => router.push('/'));
+      updateSoundscape(pk, formInput, stringifyProgression()).then(() => router.push('/'));
     } else {
       const payload = { ...formInput, user: user.uid };
-      createSoundscape(payload).then(() => router.push('/'));
-      console.warn(payload);
+      createSoundscape(payload, stringifyProgression()).then(() => router.push('/'));
     }
   };
 
   const getChordProgressionsDrillable = () => {
     getChordProgressions(pk).then((response) => {
       originalProgressions = response.map((element) => element.chordProgression);
-      console.warn(originalProgressions);
+      originalProgressions = originalProgressions.toString();
+      originalProgressions = originalProgressions.replaceAll(',', '');
+      setFormInput((prevState) => ({
+        ...prevState,
+        melodyNotes: originalMelodyNotes,
+        melodyTexture: originalMelodyTexture,
+        chordTexture: originalChordTexture,
+        title: originalTitle,
+        easygoing: originalProgressions.includes('1'),
+        nocturnal: originalProgressions.includes('2'),
+        earnest: originalProgressions.includes('3'),
+        hopeful: originalProgressions.includes('4'),
+        circular: originalProgressions.includes('5'),
+        bittersweet: originalProgressions.includes('6'),
+        foggy: originalProgressions.includes('7'),
+        desolate: originalProgressions.includes('8'),
+      }));
     });
   };
 
@@ -146,7 +220,6 @@ export default function Soundscape() {
       ...prevState,
       melodyNotes: convertedSelected,
     }));
-    console.warn(formInput.melodyNotes);
   };
 
   useEffect(() => {
@@ -177,15 +250,32 @@ export default function Soundscape() {
         oldSelected.push(`h${originalMelodyNotes[7]}`);
       }
       setSelected(oldSelected);
-      setFormInput((prevState) => ({
-        ...prevState,
-        melodyNotes: originalMelodyNotes,
-        melodyTexture: originalMelodyTexture,
-        chordTexture: originalChordTexture,
-        title: originalTitle,
-      }));
       if (!soundscapeStringArray[5] && router.query.data !== 'new') {
         getChordProgressionsDrillable();
+      } else if (soundscapeStringArray[5] && router.query.data !== 'new') {
+        setFormInput((prevState) => ({
+          ...prevState,
+          melodyNotes: originalMelodyNotes,
+          melodyTexture: originalMelodyTexture,
+          chordTexture: originalChordTexture,
+          title: originalTitle,
+          easygoing: originalProgressions.includes('1'),
+          nocturnal: originalProgressions.includes('2'),
+          earnest: originalProgressions.includes('3'),
+          hopeful: originalProgressions.includes('4'),
+          circular: originalProgressions.includes('5'),
+          bittersweet: originalProgressions.includes('6'),
+          foggy: originalProgressions.includes('7'),
+          desolate: originalProgressions.includes('8'),
+        }));
+      } else {
+        setFormInput((prevState) => ({
+          ...prevState,
+          melodyNotes: originalMelodyNotes,
+          melodyTexture: originalMelodyTexture,
+          chordTexture: originalChordTexture,
+          title: originalTitle,
+        }));
       }
     }
   }, []);
@@ -222,37 +312,37 @@ export default function Soundscape() {
             <div className="checkboxColumn">
               <div className="checkboxItem">
                 <label htmlFor="scales">Easygoing</label>
-                <input className="checkboxInput" type="checkbox" id="easygoing" name="easygoing" checked />
+                <input className="checkboxInput" type="checkbox" id="easygoing" name="easygoing" checked={formInput.easygoing} onChange={handleChange} />
               </div>
               <div className="checkboxItem">
                 <label htmlFor="scales">Nocturnal</label>
-                <input className="checkboxInput" type="checkbox" id="nocturnal" name="nocturnal" checked />
+                <input className="checkboxInput" type="checkbox" id="nocturnal" name="nocturnal" checked={formInput.nocturnal} onChange={handleChange} />
               </div>
               <div className="checkboxItem">
                 <label htmlFor="scales">Earnest</label>
-                <input className="checkboxInput" type="checkbox" id="earnest" name="earnest" checked />
+                <input className="checkboxInput" type="checkbox" id="earnest" name="earnest" checked={formInput.earnest} onChange={handleChange} />
               </div>
               <div className="checkboxItem">
                 <label htmlFor="scales">Hopeful</label>
-                <input className="checkboxInput" type="checkbox" id="hopeful" name="hopeful" checked />
+                <input className="checkboxInput" type="checkbox" id="hopeful" name="hopeful" checked={formInput.hopeful} onChange={handleChange} />
               </div>
             </div>
             <div className="checkboxColumn">
               <div className="checkboxItem">
                 <label htmlFor="scales">Circular</label>
-                <input className="checkboxInput" type="checkbox" id="circular" name="circular" checked />
+                <input className="checkboxInput" type="checkbox" id="circular" name="circular" checked={formInput.circular} onChange={handleChange} />
               </div>
               <div className="checkboxItem">
                 <label htmlFor="scales">Bittersweet</label>
-                <input className="checkboxInput" type="checkbox" id="bittersweet" name="bittersweet" checked />
+                <input className="checkboxInput" type="checkbox" id="bittersweet" name="bittersweet" checked={formInput.bittersweet} onChange={handleChange} />
               </div>
               <div className="checkboxItem">
                 <label htmlFor="scales">Foggy</label>
-                <input className="checkboxInput" type="checkbox" id="foggy" name="foggy" checked />
+                <input className="checkboxInput" type="checkbox" id="foggy" name="foggy" checked={formInput.foggy} onChange={handleChange} />
               </div>
               <div className="checkboxItem">
                 <label htmlFor="scales">Desolate</label>
-                <input className="checkboxInput" type="checkbox" id="desolate" name="desolate" checked />
+                <input className="checkboxInput" type="checkbox" id="desolate" name="desolate" checked={formInput.desolate} onChange={handleChange} />
               </div>
             </div>
           </div>
@@ -274,9 +364,7 @@ export default function Soundscape() {
             Name your soundscape:
           </div>
           <div className="selectBox">
-            <form>
-              <input name="title" onChange={handleChange} className="inputClass" type="text" maxLength="18" placeholder="Enter a name..." value={formInput.title} />
-            </form>
+            <input name="title" onChange={handleChange} className="inputClass" type="text" maxLength="18" placeholder="Enter a name..." value={formInput.title} />
           </div>
         </div>
         <div className="soundscapeBox4">
@@ -284,7 +372,7 @@ export default function Soundscape() {
             <button type="button" className="soundButton">Return</button>
           </Link>
           <button type="submit" className="soundButton">Save</button>
-          <Link href="/listen/1" passHref>
+          <Link href={`/listen/${formInput.title}--${formInput.melodyNotes}--${formInput.melodyTexture}--${formInput.chordTexture}--${pk}--${stringifyProgression()}`} passHref>
             <button type="button" className="soundButton">Listen</button>
           </Link>
         </div>
