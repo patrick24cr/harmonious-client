@@ -9,6 +9,30 @@ const getSoundscapes = (uid) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const createSoundscape = (payload) => new Promise((resolve, reject) => {
+  axios.post(`${dbUrl}/soundscapes`, payload)
+    .then(resolve)
+    .catch(reject);
+});
+
+const updateSoundscape = (pk, payload) => new Promise((resolve, reject) => {
+  axios.put(`${dbUrl}/soundscapes/${pk}`, payload)
+    .then(resolve)
+    .catch(reject);
+});
+
+const deleteSoundscape = (pk) => new Promise((resolve, reject) => {
+  axios.delete(`${dbUrl}/soundscapes/${pk}`)
+    .then((response) => resolve(response.data))
+    .catch((error) => reject(error));
+});
+
+const getChordProgressions = (pk) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/soundscapeChordProgressions?pk=${pk}`)
+    .then((response) => resolve(Object.values(response.data)))
+    .catch((error) => reject(error));
+});
+
 const deleteSingleBand = (firebaseKey) => new Promise((resolve, reject) => {
   axios.delete(`${dbUrl}/bands/${firebaseKey}.json`)
     .then((response) => resolve(response.data))
@@ -88,6 +112,10 @@ const deleteBandAndMembers = (bandFirebaseKey) => new Promise((resolve, reject) 
 
 export {
   getSoundscapes,
+  createSoundscape,
+  updateSoundscape,
+  deleteSoundscape,
+  getChordProgressions,
   deleteSingleBand,
   getSingleBand,
   viewBandDetails,
