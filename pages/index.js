@@ -3,8 +3,12 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../utils/context/authContext';
 import EmptyBands from '../components/EmptyBands';
-import { getSoundscapes, deleteSoundscape } from '../api/soundscapes';
+import {
+  getSoundscapes, deleteSoundscape, deleteAllChordProgressions,
+} from '../api/soundscapes';
+import { deleteUser } from '../api/user';
 import TopNavigation from '../components/TopNavigation';
+import { signOut } from '../utils/auth';
 
 export default function Home() {
   const { user } = useAuth();
@@ -12,18 +16,29 @@ export default function Home() {
   const getSoundscapesDrillable = () => {
     getSoundscapes(user.uid).then(setSoundscapes);
   };
+
   const deleteAndUpdate = (pk) => {
     if (window.confirm('Delete this soundscape?')) {
-      deleteSoundscape(pk).then(getSoundscapesDrillable);
+      deleteAllChordProgressions(pk).then(() => {
+        deleteSoundscape(pk).then(getSoundscapesDrillable);
+      });
     }
   };
+
+  const deleteUserAndDataWarn = (uid) => {
+    console.warn(uid);
+    if (window.confirm('Delete user and all data?')) {
+      deleteUser(uid).then(() => {
+        signOut();
+      });
+    }
+  };
+
   useEffect(() => {
     getSoundscapesDrillable();
     document.title = 'Harmonious Volt';
   }, []);
-  // if (bands === null) {
-  //   return <></>;
-  // }
+
   if (soundscapes) {
     return (
       <>
@@ -49,8 +64,14 @@ export default function Home() {
           </div>
           <div className="homeCard">
             <div className="spacer" />
+            Sign Out?
+            <button type="button" className="soundButton" onClick={() => signOut()}>Sign Out</button>
+            <div className="spacer" />
+          </div>
+          <div className="homeCard">
+            <div className="spacer" />
             Delete User?
-            <button type="button" className="soundButton">Delete</button>
+            <button type="button" className="soundButton" onClick={() => deleteUserAndDataWarn(user.uid)}>Delete</button>
             <div className="spacer" />
           </div>
         </div>

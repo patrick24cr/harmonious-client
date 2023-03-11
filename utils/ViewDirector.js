@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from './context/authContext';
 import Loading from '../components/Loading';
 import Signin from '../components/Signin';
@@ -9,10 +9,16 @@ import RegisterForm from '../components/RegisterForm';
 
 const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) => {
   const { user, userLoading, updateUser } = useAuth();
-  const [value, setValue] = useState(0); // integer state
-  const useForceUpdate = () => setValue(value + 1); // update state to force render
-  // A function that increment 👆🏻 the previous state like here
-  // is better than directly setting `setValue(value + 1)`;
+  const [value, setValue] = useState(false); // boolean state
+  const useForceUpdate = () => setValue(!value); // update state to force render
+
+  useEffect(() => {
+    if (value) {
+      updateUser(user);
+      console.warn('value changed');
+      console.warn(user);
+    }
+  }, [value]);
 
   // if user state is null, then show loader
   if (userLoading) {
