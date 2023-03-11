@@ -353,9 +353,9 @@ export default function Soundscape() {
           </div>
           <div className="selectBox">
             <select className="pulldownClass" name="chordTexture" id="chordTexture" onChange={handleChange} value={formInput.chordTexture}>
-              <option value="1">Air chords</option>
-              <option value="2">Digital rain</option>
-              <option value="3">Gentle chimes</option>
+              <option value="1">Air Chords</option>
+              <option value="2">Digital Glass</option>
+              <option value="3">Gentle Marimbas</option>
             </select>
           </div>
         </div>
