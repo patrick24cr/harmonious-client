@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function GridInteractable({ selected, setSelected }) {
+function GridInteractable({ selected, alertParent }) {
   const columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   const rows = ['8', '7', '6', '5', '4', '3', '2', '1'];
-
   const calculatedTileNames = [];
   for (let y = 0; y < rows.length; y++) {
     for (let x = 0; x < columns.length; x++) {
@@ -21,8 +20,9 @@ function GridInteractable({ selected, setSelected }) {
   const scoreLineHeight = () => 70 / rows.length;
 
   const handleSelect = (e) => {
+    console.warn(e.target.id);
     const tileName = e.target.id.split('--')[1];
-    setSelected(tileName);
+    alertParent(tileName);
     // need some magic here
   };
 
@@ -40,12 +40,12 @@ function GridInteractable({ selected, setSelected }) {
             <div
               key={`tile--${tile}`}
               id={`tile--${tile}`}
-              className={`tile grade0 ${tile === selected ? ' selected' : ''}`}
+              className={`tile grade0 ${selected.includes(tile) ? ' selected' : ''}`}
             />
             <div
               role="button"
               tabIndex={0}
-              className={`scoreContainer${tile === selected ? ' selectedScore' : ''}`}
+              className={`scoreContainer${selected.includes(tile) ? ' selectedScore' : ''}`}
               id={`hover--${tile}`}
               onClick={(e) => handleSelect(e)}
             //   onMouseEnter={(e) => highlightElements(e)}
@@ -63,13 +63,13 @@ function GridInteractable({ selected, setSelected }) {
 }
 
 GridInteractable.propTypes = {
-  selected: PropTypes.string,
-  setSelected: PropTypes.func,
+  selected: PropTypes.arrayOf(PropTypes.string),
+  alertParent: PropTypes.func,
 };
 
 GridInteractable.defaultProps = {
-  selected: '',
-  setSelected: (() => 0),
+  selected: [],
+  alertParent: (() => 0),
 };
 
 export default GridInteractable;
