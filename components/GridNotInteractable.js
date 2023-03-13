@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function GridInteractable({ selected, alertParent }) {
+function GridNotInteractable({ selected }) {
   const columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p'];
   const rows = ['8', '7', '6', '5', '4', '3', '2', '1'];
   const calculatedTileNames = [];
@@ -21,15 +21,15 @@ function GridInteractable({ selected, alertParent }) {
 
   const handleSelect = (e) => {
     console.warn(e.target.id);
-    const tileName = e.target.id.split('--')[1];
-    alertParent(tileName);
+    // const tileName = e.target.id.split('--')[1];
+    // alertParent(tileName);
     // need some magic here
   };
 
   // , lineHeight: `${syntaxItemLineHeight()}vw`
 
   return (
-    <div className="metaGridContainer">
+    <div className="metaGridContainer2">
       <div
         className="lessonGridContainer"
         style={{ gridTemplateColumns: `repeat(${columns.length}, 1fr)` }}
@@ -62,14 +62,12 @@ function GridInteractable({ selected, alertParent }) {
   );
 }
 
-GridInteractable.propTypes = {
+GridNotInteractable.propTypes = {
   selected: PropTypes.arrayOf(PropTypes.string),
-  alertParent: PropTypes.func,
 };
 
-GridInteractable.defaultProps = {
+GridNotInteractable.defaultProps = {
   selected: [],
-  alertParent: (() => 0),
 };
 
-export default GridInteractable;
+export default GridNotInteractable;

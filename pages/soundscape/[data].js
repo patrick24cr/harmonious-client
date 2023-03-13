@@ -56,16 +56,6 @@ export default function Soundscape() {
     }
   }
 
-  // const scrubMelody = () => {
-  //   let convertedSelected = formInput.melodyNotes;
-  //   convertedSelected = convertedSelected.toString();
-  //   convertedSelected = convertedSelected.replaceAll(',', '');
-  //   setFormInput((prevState) => ({
-  //     ...prevState,
-  //     melodyNotes: convertedSelected,
-  //   }));
-  // };
-
   const stringifyProgression = () => {
     let progressionString = '';
     if (formInput.easygoing) {
@@ -165,29 +155,33 @@ export default function Soundscape() {
   const alertParentOfSelection = (tile) => {
     const columnContent = selected.map((element) => element[0]);
     if (selected.includes(tile)) {
+      // if clicked tile is already selected
       const oldSelected = selected;
       oldSelected.splice(selected.indexOf(tile), 1);
       setSelected(oldSelected);
       setDummy(!dummy);
     } else if (columnContent.includes(tile[0])) {
+      // if clicked tile is in the same column as another previously selected tile
       const oldSelected = selected;
       oldSelected.splice(columnContent.indexOf(tile[0]), 1);
       oldSelected.push(tile);
       setSelected(oldSelected);
       setDummy(!dummy);
-    } else if (selected.length < 5) {
+    } else if (selected.length < 9) {
+      // if the above two conditions are not true and there's still less than X selected
       const oldSelected = selected;
       oldSelected.push(tile);
       setSelected(oldSelected);
       setDummy(!dummy);
     } else {
+      // if there are already X number of tiles selected
       const oldSelected = selected;
       oldSelected.push(tile);
       oldSelected.shift();
       setSelected(oldSelected);
       setDummy(!dummy);
     }
-    let convertedSelected = [0, 0, 0, 0, 0, 0, 0, 0];
+    let convertedSelected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     selected.forEach((element) => {
       if (element[0] === 'a') {
         convertedSelected[0] = parseInt(element[1], 10);
@@ -212,6 +206,30 @@ export default function Soundscape() {
       }
       if (element[0] === 'h') {
         convertedSelected[7] = parseInt(element[1], 10);
+      }
+      if (element[0] === 'i') {
+        convertedSelected[8] = parseInt(element[1], 10);
+      }
+      if (element[0] === 'j') {
+        convertedSelected[9] = parseInt(element[1], 10);
+      }
+      if (element[0] === 'k') {
+        convertedSelected[10] = parseInt(element[1], 10);
+      }
+      if (element[0] === 'l') {
+        convertedSelected[11] = parseInt(element[1], 10);
+      }
+      if (element[0] === 'm') {
+        convertedSelected[12] = parseInt(element[1], 10);
+      }
+      if (element[0] === 'n') {
+        convertedSelected[13] = parseInt(element[1], 10);
+      }
+      if (element[0] === 'o') {
+        convertedSelected[14] = parseInt(element[1], 10);
+      }
+      if (element[0] === 'p') {
+        convertedSelected[15] = parseInt(element[1], 10);
       }
     });
     convertedSelected = convertedSelected.toString();
@@ -248,6 +266,30 @@ export default function Soundscape() {
       }
       if (originalMelodyNotes[7] > 0) {
         oldSelected.push(`h${originalMelodyNotes[7]}`);
+      }
+      if (originalMelodyNotes[8] > 0) {
+        oldSelected.push(`i${originalMelodyNotes[8]}`);
+      }
+      if (originalMelodyNotes[9] > 0) {
+        oldSelected.push(`j${originalMelodyNotes[9]}`);
+      }
+      if (originalMelodyNotes[10] > 0) {
+        oldSelected.push(`k${originalMelodyNotes[10]}`);
+      }
+      if (originalMelodyNotes[11] > 0) {
+        oldSelected.push(`l${originalMelodyNotes[11]}`);
+      }
+      if (originalMelodyNotes[12] > 0) {
+        oldSelected.push(`m${originalMelodyNotes[12]}`);
+      }
+      if (originalMelodyNotes[13] > 0) {
+        oldSelected.push(`n${originalMelodyNotes[13]}`);
+      }
+      if (originalMelodyNotes[14] > 0) {
+        oldSelected.push(`o${originalMelodyNotes[14]}`);
+      }
+      if (originalMelodyNotes[15] > 0) {
+        oldSelected.push(`p${originalMelodyNotes[15]}`);
       }
       setSelected(oldSelected);
       if (!soundscapeStringArray[5] && router.query.data !== 'new') {
@@ -299,8 +341,8 @@ export default function Soundscape() {
           <div className="selectBox">
             <select className="pulldownClass" name="melodyTexture" id="melodyTexture" onChange={handleChange} value={formInput.melodyTexture}>
               <option value="1">Ocarina</option>
-              <option value="2">Rhodes</option>
-              <option value="3">Impulse</option>
+              <option value="2">Vertex</option>
+              <option value="3">Rain</option>
             </select>
           </div>
         </div>

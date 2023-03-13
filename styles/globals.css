@@ -50,17 +50,32 @@ a {
 }
 
 .metaGridContainer {
-  width: 14rem;
-  min-height: 14rem;
+  width: 20rem;
+  min-height: 10rem;
   /* padding-top: 3vw; */
   /* padding-bottom: 4vw; */
   /* background-color: #2b2a35; */
   display: grid;
-  grid-template-columns: 0vw 14rem;
-  grid-template-rows: 0vw 14rem;
+  grid-template-columns: 0vw 20rem;
+  grid-template-rows: 0vw 10rem;
   grid-template-areas: 
     "blank syntax"
     "verbs tiles";
+}
+
+.metaGridContainer2 {
+  width: 20rem;
+  min-height: 10rem;
+  /* padding-top: 3vw; */
+  /* padding-bottom: 4vw; */
+  /* background-color: #2b2a35; */
+  display: grid;
+  grid-template-columns: 0vw 20rem;
+  grid-template-rows: 0vw 10rem;
+  grid-template-areas: 
+    "blank syntax"
+    "verbs tiles";
+  pointer-events:none;
 }
 
 .lessonGridBackground {
@@ -613,7 +628,7 @@ a {
   border-style: solid;
   border-width: 1px;
   width: 40rem;
-  height: 16rem;
+  height: 13rem;
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
