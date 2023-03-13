@@ -167,7 +167,7 @@ export default function Soundscape() {
       oldSelected.push(tile);
       setSelected(oldSelected);
       setDummy(!dummy);
-    } else if (selected.length < 9) {
+    } else if (selected.length < 10) {
       // if the above two conditions are not true and there's still less than X selected
       const oldSelected = selected;
       oldSelected.push(tile);
@@ -340,9 +340,9 @@ export default function Soundscape() {
           </div>
           <div className="selectBox">
             <select className="pulldownClass" name="melodyTexture" id="melodyTexture" onChange={handleChange} value={formInput.melodyTexture}>
-              <option value="1">Ocarina</option>
-              <option value="2">Vertex</option>
-              <option value="3">Rain</option>
+              <option value="1">Rain Drops</option>
+              <option value="2">Ocarina</option>
+              <option value="3">Vertexes</option>
             </select>
           </div>
         </div>

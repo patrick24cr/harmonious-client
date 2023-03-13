@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import * as Tone from 'tone';
 import { EQ3 } from 'tone';
 import GridNotInteractable from '../../components/GridNotInteractable';
 import TopNavigation from '../../components/TopNavigation';
-import { getReadOnlyChordProgressions, getChordProgressionsDetailed } from '../../api/soundscapes';
+import { getReadOnlyChordProgressions } from '../../api/soundscapes';
 
 export default function Listen() {
   const router = useRouter();
@@ -15,12 +15,10 @@ export default function Listen() {
   const originalMelodyNotes = soundscapeStringArray[1];
   const originalMelodyTexture = parseInt(soundscapeStringArray[2], 10);
   const originalChordTexture = parseInt(soundscapeStringArray[3], 10);
-  const pk = parseInt(soundscapeStringArray[4], 10);
+  // const pk = parseInt(soundscapeStringArray[4], 10);
   const originalProgressions = soundscapeStringArray[5];
-  const [detailedProgressions, setDetailedProgressions] = useState([]);
-  const namingConventionArray = ['index0', 'texture1filepath', 'texture2filepath', 'texture3filepath'];
-  const [originalChordNumbers, setOriginalChordNumbers] = useState([[], [], []]);
-  console.warn(detailedProgressions, namingConventionArray, originalChordNumbers);
+  //   const [detailedProgressions, setDetailedProgressions] = useState([]);
+  //   const [originalChordNumbers, setOriginalChordNumbers] = useState([[], [], []]);
   //   let melodyString = '';
   //   let chordString = '';
   let synths = [];
@@ -32,8 +30,11 @@ export default function Listen() {
   let playing = false;
   let started = false;
   let sampler = {};
+  const filepathArray = ['index0', 'blown', 'glass', 'marimba'];
+  // eslint-disable-next-line object-curly-newline
+  const synthSettings = [[{ type: 'square5', volume: -5 }, { attack: 0.005, decay: 0.7, sustain: 0.0, release: 0.5 }], [{ type: 'sawtooth2', volume: -1 }, { attack: 0.19, decay: 1, sustain: 0.0, release: 0.9 }], [{}, { attack: 0.02, decay: 1.2, sustain: 0.0, release: 0.2 }]];
   const progressionNames = ['Easygoing', 'Nocturnal', 'Earnest', 'Hopeful', 'Circular', 'Bittersweet', 'Foggy', 'Desolate'];
-  const melodyTextureNames = ['Ocarina', 'Vertex', 'Rain'];
+  const melodyTextureNames = ['Rain Drops', 'Ocarina', 'Vertexes'];
   const chordTextureNames = ['Air Chords', 'Digital Glass', 'Gentle Marimbas'];
   const stringTranslatedToTiles = [];
   if (originalMelodyNotes[0] > 0) {
@@ -89,15 +90,8 @@ export default function Listen() {
     synths = [];
     for (let i = 0; i < count; i++) {
       const synth = new Tone.Synth({
-        oscillator: {
-          type: 'square6',
-        },
-        envelope: {
-          attack: 0.005,
-          decay: 0.7,
-          sustain: 0.0,
-          release: 0.5,
-        },
+        oscillator: synthSettings[originalMelodyTexture - 1][0],
+        envelope: synthSettings[originalMelodyTexture - 1][1],
       });
       synths.push(synth);
     }
@@ -105,6 +99,7 @@ export default function Listen() {
     const synthVolume = new Tone.Volume({ volume: -4 });
     const delayVolume = new Tone.Volume({ volume: -12 });
     const lowCutEQ = new EQ3({ low: -3 });
+    const highCutEQ = new EQ3({ high: -2 });
     const reverb = new Tone.Freeverb({ roomSize: 0.96, dampening: 1000 });
     const reverbVolume = new Tone.Volume({ volume: -14 }).toDestination();
     feedbackDelay.connect(delayVolume);
@@ -117,21 +112,22 @@ export default function Listen() {
     });
     sampler = new Tone.Sampler({
       urls: {
-        C3: 'blown_c_major.m4a',
-        D3: 'blown_d_minor.m4a',
-        E3: 'blown_e_minor.m4a',
-        F3: 'blown_f_major.m4a',
-        G3: 'blown_g_major.m4a',
-        A3: 'blown_a_minor.m4a',
-        C4: 'blown_c_major7.m4a',
-        D4: 'blown_d_minor7.m4a',
-        E4: 'blown_e_minor7.m4a',
-        F4: 'blown_f_major7.m4a',
-        A4: 'blown_a_minor7.m4a',
+        C3: `${filepathArray[originalChordTexture]}_c_major.m4a`,
+        D3: `${filepathArray[originalChordTexture]}_d_minor.m4a`,
+        E3: `${filepathArray[originalChordTexture]}_e_minor.m4a`,
+        F3: `${filepathArray[originalChordTexture]}_f_major.m4a`,
+        G3: `${filepathArray[originalChordTexture]}_g_major.m4a`,
+        A3: `${filepathArray[originalChordTexture]}_a_minor.m4a`,
+        C4: `${filepathArray[originalChordTexture]}_c_major7.m4a`,
+        D4: `${filepathArray[originalChordTexture]}_d_minor7.m4a`,
+        E4: `${filepathArray[originalChordTexture]}_e_minor7.m4a`,
+        F4: `${filepathArray[originalChordTexture]}_f_major7.m4a`,
+        A4: `${filepathArray[originalChordTexture]}_a_minor7.m4a`,
       },
       baseUrl: 'http://localhost:3000/chords/',
     });
-    sampler.fan(reverb, Tone.getDestination());
+    sampler.connect(highCutEQ);
+    highCutEQ.fan(reverb, Tone.getDestination());
     return synths;
   };
 
@@ -197,9 +193,6 @@ export default function Listen() {
     for (let i = 0; i < array.length; i++) {
       // eslint-disable-next-line no-continue
       changeGridItem(targetGrid, array[i], iModulator);
-      //   changeGridItem(targetGrid, 0, iModulator + 1);
-      //   changeGridItem(targetGrid, 0, iModulator + 2);
-      //   changeGridItem(targetGrid, 0, iModulator + 3);
       iModulator += 4;
     }
   };
@@ -266,15 +259,15 @@ export default function Listen() {
   };
 
   useEffect(() => {
-    getChordProgressionsDetailed(pk).then((response) => {
-      setDetailedProgressions(response);
-    });
+    // getChordProgressionsDetailed(pk).then((response) => {
+    //   setDetailedProgressions(response);
+    // });
     getReadOnlyChordProgressions().then((response) => {
       const decrementedOriginalProgressions = decrementString(originalProgressions);
       // eslint-disable-next-line max-len
       const tacoOfAspiration = ([[response[decrementedOriginalProgressions[0]].firstChord, response[decrementedOriginalProgressions[0]].secondChord, response[decrementedOriginalProgressions[0]].thirdChord, response[decrementedOriginalProgressions[0]].fourthChord], [response[decrementedOriginalProgressions[1]].firstChord, response[decrementedOriginalProgressions[1]].secondChord, response[decrementedOriginalProgressions[1]].thirdChord, response[decrementedOriginalProgressions[1]].fourthChord], [response[decrementedOriginalProgressions[2]].firstChord, response[decrementedOriginalProgressions[2]].secondChord, response[decrementedOriginalProgressions[2]].thirdChord, response[decrementedOriginalProgressions[2]].fourthChord]]);
 
-      setOriginalChordNumbers(tacoOfAspiration);
+      // setOriginalChordNumbers(tacoOfAspiration);
 
       synths = makeSynths(10);
       grid1 = makeGrid(notes1);
@@ -282,10 +275,9 @@ export default function Listen() {
       changeGridWhole(grid1, melodyArranger(originalMelodyNotes));
       changeGridWholeForChords(grid2, chordArranger(tacoOfAspiration));
       configLoop();
-      console.warn('Start Procession');
-      console.warn(melodyArranger(originalMelodyNotes));
-      console.warn(tacoOfAspiration);
-      console.warn(chordArranger(tacoOfAspiration));
+      console.warn('Computed melody:', melodyArranger(originalMelodyNotes));
+      console.warn('Delivered chord progressions:', tacoOfAspiration);
+      console.warn('Arranged chords:', chordArranger(tacoOfAspiration));
     });
   }, []);
 
@@ -322,7 +314,7 @@ export default function Listen() {
       </div>
       <div className="soundscapeBox2">
         <div className="parameterLabelBox">
-          Texture: {melodyTextureNames[originalMelodyTexture]} over {chordTextureNames[originalChordTexture]}
+          Texture: {melodyTextureNames[originalMelodyTexture - 1]} over {chordTextureNames[originalChordTexture - 1]}
         </div>
       </div>
       <div key="buttonBox" className="soundscapeBox4">
