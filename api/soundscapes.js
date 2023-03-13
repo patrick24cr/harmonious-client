@@ -15,6 +15,12 @@ const deleteSoundscape = (pk) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const getReadOnlyChordProgressions = () => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/chordProgressions`)
+    .then((response) => resolve(Object.values(response.data)))
+    .catch((error) => reject(error));
+});
+
 const getChordProgressions = (soundscapePk) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/soundscapeChordProgressions?pk=${soundscapePk}`)
     .then((response) => resolve(Object.values(response.data)))
@@ -93,6 +99,7 @@ export {
   createSoundscape,
   updateSoundscape,
   deleteSoundscape,
+  getReadOnlyChordProgressions,
   getChordProgressions,
   deleteChordProgression,
   deleteAllChordProgressions,
