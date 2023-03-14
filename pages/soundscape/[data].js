@@ -85,6 +85,14 @@ export default function Soundscape() {
     return progressionString;
   };
 
+  const checkNumberOfProgressions = () => {
+    if (stringifyProgression().length !== 3) {
+      alert('You must select exactly three harmonic progressions.');
+      return false;
+    }
+    return true;
+  };
+
   const handleChange = (e) => {
     // const { name, value } = e.target;
     const { name } = e.target;
@@ -121,11 +129,13 @@ export default function Soundscape() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (router.query.data !== 'new') {
-      updateSoundscape(pk, formInput, stringifyProgression()).then(() => router.push('/'));
-    } else {
-      const payload = { ...formInput, user: user.uid };
-      createSoundscape(payload, stringifyProgression()).then(() => router.push('/'));
+    if (checkNumberOfProgressions()) {
+      if (router.query.data !== 'new') {
+        updateSoundscape(pk, formInput, stringifyProgression()).then(() => router.push('/'));
+      } else {
+        const payload = { ...formInput, user: user.uid };
+        createSoundscape(payload, stringifyProgression()).then(() => router.push('/'));
+      }
     }
   };
 
@@ -414,7 +424,7 @@ export default function Soundscape() {
             <button type="button" className="soundButton">Return</button>
           </Link>
           <button type="submit" className="soundButton">Save</button>
-          <Link href={`/listen/${formInput.title}--${formInput.melodyNotes}--${formInput.melodyTexture}--${formInput.chordTexture}--${pk}--${stringifyProgression()}`} passHref>
+          <Link href={checkNumberOfProgressions ? `/listen/${formInput.title}--${formInput.melodyNotes}--${formInput.melodyTexture}--${formInput.chordTexture}--${pk}--${stringifyProgression()}` : ''} passHref>
             <button type="button" className="soundButton">Listen</button>
           </Link>
         </div>
