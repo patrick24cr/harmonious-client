@@ -7,6 +7,9 @@ import GridNotInteractable from '../../components/GridNotInteractable';
 import TopNavigation from '../../components/TopNavigation';
 import { getReadOnlyChordProgressions } from '../../api/soundscapes';
 
+// apologies to anyone reading this code. It was patched together on successive late nights while starting a new job and a new relationship
+// ¯\_(ツ)_/¯
+
 export default function Listen() {
   const router = useRouter();
   const soundscapeStringArray = router.query.data.split('--');
@@ -22,7 +25,7 @@ export default function Listen() {
   //   let melodyString = '';
   //   let chordString = '';
   let synths = [];
-  const notes1 = ['G3', 'A3', 'C4', 'D4', 'E4', 'G4', 'A4', 'C5', 'D5', 'E5'];
+  const notes1 = ['G3', 'A3', 'C4', 'D4', 'E4', 'G4', 'A4', 'C5', 'D5', 'E5', 'G5'];
   const notes2 = ['0', 'c3', 'd3', 'e3', 'f3', 'g3', 'a3', '7', '8', '9', '10', 'c4', 'd4', 'e4', 'f4', '15', 'a4'];
   let grid1 = [];
   let grid2 = [];
@@ -223,6 +226,18 @@ export default function Listen() {
     return newString;
   };
 
+  const incrementString2 = (originalString) => {
+    let newString = '';
+    for (let i = 0; i < originalString.length; i++) {
+      if (originalString.charAt(i) === '0') {
+        newString += 0;
+      } else {
+        newString += parseInt(originalString.charAt(i), 10) + 2;
+      }
+    }
+    return newString;
+  };
+
   const invertString = (originalString) => {
     let newString = '';
     for (let i = 0; i < originalString.length; i++) {
@@ -235,7 +250,7 @@ export default function Listen() {
     return newString;
   };
 
-  const melodyArranger = (melodicSeed) => melodicSeed + decrementString(melodicSeed) + incrementString(melodicSeed) + melodicSeed + invertString(melodicSeed) + melodicSeed + decrementString(invertString(melodicSeed)) + decrementString(melodicSeed) + invertString(melodicSeed) + decrementString(melodicSeed) + incrementString(invertString(melodicSeed) + incrementString(melodicSeed));
+  const melodyArranger = (melodicSeed) => incrementString(melodicSeed) + melodicSeed + incrementString2(melodicSeed) + incrementString(melodicSeed) + invertString(incrementString(melodicSeed)) + incrementString(melodicSeed) + invertString(melodicSeed) + melodicSeed + invertString(incrementString(melodicSeed)) + melodicSeed + incrementString2(invertString(melodicSeed) + incrementString2(melodicSeed));
 
   const chordArranger = (chords) => {
     const shuffledChords = shuffleArray(chords);
@@ -296,7 +311,7 @@ export default function Listen() {
       <TopNavigation />
       <div className="soundscapeBox2">
         <div className="parameterLabelBox">
-          {originalTitle}
+          {originalTitle} - click Start to generate/evolve/loop
         </div>
       </div>
       <div className="soundscapeBox1">

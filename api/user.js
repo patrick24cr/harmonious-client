@@ -20,9 +20,7 @@ const deleteUser = (uid) => new Promise((resolve, reject) => {
 
 const deleteUserAndData = (uid) => new Promise((resolve, reject) => {
   getSoundscapes(uid).then((response) => {
-    console.warn(response);
     const soundscapePks = response.map((element) => (element.id));
-    console.warn(soundscapePks);
     const deleteAllChordProgressionsPromises = soundscapePks.map((pk) => deleteAllChordProgressions(pk));
     const deleteSoundscapePromises = soundscapePks.map((pk1) => deleteSoundscape(pk1));
     console.warn('started first batch');

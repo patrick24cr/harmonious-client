@@ -93,6 +93,16 @@ export default function Soundscape() {
     return true;
   };
 
+  const checkNumberOfProgressionsAndDisable = () => {
+    if (stringifyProgression().length !== 3) {
+      document.getElementById('listen-button').disabled = true;
+      console.warn('should be disabled');
+      return;
+    }
+    document.getElementById('listen-button').disabled = false;
+    console.warn('should be enabled');
+  };
+
   const handleChange = (e) => {
     // const { name, value } = e.target;
     const { name } = e.target;
@@ -130,7 +140,7 @@ export default function Soundscape() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (checkNumberOfProgressions()) {
-      if (router.query.data !== 'new') {
+      if (router.query.data !== 'new' && pk) {
         updateSoundscape(pk, formInput, stringifyProgression()).then(() => router.push('/'));
       } else {
         const payload = { ...formInput, user: user.uid };
@@ -249,6 +259,10 @@ export default function Soundscape() {
       melodyNotes: convertedSelected,
     }));
   };
+
+  useEffect(() => {
+    checkNumberOfProgressionsAndDisable();
+  }, [formInput]);
 
   useEffect(() => {
     if (originalMelodyNotes) {
@@ -424,8 +438,8 @@ export default function Soundscape() {
             <button type="button" className="soundButton">Return</button>
           </Link>
           <button type="submit" className="soundButton">Save</button>
-          <Link href={checkNumberOfProgressions ? `/listen/${formInput.title}--${formInput.melodyNotes}--${formInput.melodyTexture}--${formInput.chordTexture}--${pk}--${stringifyProgression()}` : ''} passHref>
-            <button type="button" className="soundButton">Listen</button>
+          <Link href={`/listen/${formInput.title}--${formInput.melodyNotes}--${formInput.melodyTexture}--${formInput.chordTexture}--${pk}--${stringifyProgression()}`} passHref>
+            <button type="button" className="soundButton" id="listen-button">Listen</button>
           </Link>
         </div>
       </form>

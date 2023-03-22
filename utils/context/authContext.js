@@ -26,6 +26,7 @@ const AuthProvider = (props) => {
   const updateUser = useMemo(
     () => (userObj) => checkUser(userObj).then((userInfo) => {
       setUser({ fbUser: oAuthUser, ...userInfo });
+      console.warn('tried to update user: ', userInfo);
     }),
     [oAuthUser],
   );

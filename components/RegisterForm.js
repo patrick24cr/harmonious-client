@@ -5,7 +5,7 @@ import TopNavigation from './TopNavigation';
 function RegisterForm({ user, onUpdate }) {
   const handleClick = () => {
     registerUser(user).then(() => {
-      onUpdate();
+      onUpdate(user.uid);
     });
   };
   return (
@@ -19,8 +19,8 @@ function RegisterForm({ user, onUpdate }) {
       <TopNavigation />
       <div className="homeCard">
         <div className="spacer" />
-        Star New User?
-        <button type="button" className="soundButton" onClick={handleClick}>Begin</button>
+        Designed for desktops running Chrome
+        <button type="button" className="soundButton" onClick={handleClick}>Proceed...</button>
         <div className="spacer" />
       </div>
     </>

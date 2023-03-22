@@ -26,7 +26,6 @@ export default function Home() {
   };
 
   const deleteUserAndDataWarn = (uid) => {
-    console.warn(uid);
     if (window.confirm('Delete user and all data?')) {
       deleteUser(uid).then(() => {
         signOut();
