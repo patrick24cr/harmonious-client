@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../utils/context/authContext';
-import EmptyBands from '../components/EmptyBands';
 import {
   getSoundscapes, deleteSoundscape, deleteAllChordProgressions,
 } from '../api/soundscapes';
@@ -77,5 +76,5 @@ export default function Home() {
       </>
     );
   }
-  return <EmptyBands displayName={user.fbUser.displayName} />;
+  return <TopNavigation />;
 }
