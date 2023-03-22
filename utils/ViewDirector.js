@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useAuth } from './context/authContext';
 import Loading from '../components/Loading';
-import Signin from '../components/Signin';
+import Signin2 from '../components/Signin2';
 // import { registerUser } from './auth';
 import RegisterForm from '../components/RegisterForm';
 // import NavBar from '../components/NavBar';
@@ -30,7 +30,7 @@ const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) 
     );
   }
 
-  return <Signin />;
+  return <div className="container"> <Signin2 /> </div>;
 };
 
 export default ViewDirectorBasedOnUserAuthStatus;
