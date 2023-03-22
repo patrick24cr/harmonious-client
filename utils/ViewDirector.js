@@ -10,15 +10,11 @@ import RegisterForm from '../components/RegisterForm';
 const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) => {
   const { user, userLoading, updateUser } = useAuth();
   const [value, setValue] = useState(false); // boolean state
-  const useForceUpdate = () => setValue(!value); // update state to force render
+  // const useForceUpdate = () => setValue(!value); // update state to force render
 
   useEffect(() => {
-    if (value) {
-      updateUser(user);
-      console.warn('value changed');
-      console.warn(user);
-    }
-  }, [value]);
+    setValue(!value);
+  }, [user]);
 
   // if user state is null, then show loader
   if (userLoading) {
@@ -29,7 +25,7 @@ const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) 
   if (user) {
     return (
       <>
-        <div className="container">{'valid' in user ? <RegisterForm user={user} updateUser={updateUser} onUpdate={useForceUpdate} /> : <Component {...pageProps} />}</div>
+        <div className="container">{'valid' in user ? <RegisterForm user={user} updateUser={updateUser} onUpdate={updateUser} /> : <Component {...pageProps} />}</div>
       </>
     );
   }
