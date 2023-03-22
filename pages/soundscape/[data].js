@@ -140,7 +140,7 @@ export default function Soundscape() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (checkNumberOfProgressions()) {
-      if (router.query.data !== 'new') {
+      if (router.query.data !== 'new' && pk) {
         updateSoundscape(pk, formInput, stringifyProgression()).then(() => router.push('/'));
       } else {
         const payload = { ...formInput, user: user.uid };
