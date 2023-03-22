@@ -127,7 +127,7 @@ export default function Listen() {
         F4: `${filepathArray[originalChordTexture]}_f_major7.m4a`,
         A4: `${filepathArray[originalChordTexture]}_a_minor7.m4a`,
       },
-      baseUrl: 'https://keen-granita-e513e5.netlify.app/chords/',
+      baseUrl: 'https://harmoniousvolt.netlify.app/chords/',
     });
     sampler.connect(highCutEQ);
     highCutEQ.fan(reverb, Tone.getDestination());
